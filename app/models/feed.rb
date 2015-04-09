@@ -53,6 +53,25 @@ class Feed
 
   class Digg
     include HTTParty
+    base_uri 'https://digg.com/api/news/popular.json'
+
+    def news
+      response = self.class.get('')
+      return response
+    end
+
+    def format response
+      noticias = []
+      response["data"]["feed"].each do |new|
+        res = {}
+        res["author"] = new["content"]["author"] 
+        res["title_alt"] = new["content"]["title_alt"]
+        res["date_published"] = Time.at(new["date_published"])
+        res["url"] = new["content"]["url"]
+        noticias.push(res)
+      end
+      return noticias
+    end
   end
 
   def main
@@ -63,6 +82,9 @@ class Feed
     mashable_feed = Mashable.new
     formato_mashable = mashable_feed.format mashable_feed.news
     newsarr.push(formato_mashable)
+    digg_feed = Digg.new
+    formato_digg = digg_feed.format digg_feed.news
+    newsarr.push(formato_digg)
     return newsarr
   end
 end
