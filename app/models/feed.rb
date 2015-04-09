@@ -75,16 +75,17 @@ class Feed
   end
 
   def main
-    newsarr = []
+    @newsarr = []
     reddit_feed = Reddit.new
     formato_reddit = reddit_feed.format reddit_feed.news
-    newsarr.push(formato_reddit)
+    @newsarr.push(formato_reddit)
     mashable_feed = Mashable.new
     formato_mashable = mashable_feed.format mashable_feed.news
-    newsarr.push(formato_mashable)
+    @newsarr.push(formato_mashable)
     digg_feed = Digg.new
     formato_digg = digg_feed.format digg_feed.news
-    newsarr.push(formato_digg)
-    return newsarr
+    @newsarr.push(formato_digg)
+    return @newsarr
   end
+
 end
