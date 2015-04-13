@@ -99,7 +99,6 @@ class Feed
         end
       end
       return title_news
-      # return @digg.collect {|news| news.title == name}
     else
       return {message: "The news site #{site} is not supported yet"}
     end
