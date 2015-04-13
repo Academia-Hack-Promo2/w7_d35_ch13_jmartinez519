@@ -1,91 +1,50 @@
+require 'reddit'
+require 'mashable'
+require 'digg'
 class Feed
   include ActiveModel::Model
-  # require 'httparty'
-  require 'date'
-
-  class Reddit
-    include HTTParty
-    base_uri 'http://www.reddit.com/.json?limit=10'
-
-    def news
-      response = self.class.get('')
-      return response
-    end
-
-    def format response
-      noticias = []
-      response["data"]["children"].each do |new|
-        res = {}      
-        res["autor"] = new["data"]["author"]
-        res["title"] = new["data"]["title"]
-        res["created_utc"] = Time.at(new["data"]["created_utc"])
-        res["url"] = new["data"]["url"] 
-        noticias.push(res)
-      end
-      puts noticias
-      return noticias
+  
+  def initialize site
+    case site
+     when "reddit"
+       @r = Reddit.new
+       @reddit = @r.format @r.getjson
+     when "mashable"
+       @m = Mashable.new
+       @mashable = @m.format @m.getjson
+     when "digg"
+       @d = Digg.new
+       @digg = @d.format @d.getjson
+     else
+      return {error: "Erro en nombre del sitio de noticias"}
     end
   end
 
-
-  class Mashable
-    include HTTParty
-    base_uri 'http://mashable.com/stories.json?limit=10'
-
-    def news
-      response = self.class.get('')
-      return response
-    end
-
-    def format response
-      noticias = []
-      response["hot"].each do |new|
-        res = {}
-        res["author"] = new["author"]  
-        res["title"] = new["title"]
-        res["post_date"] = new["post_date"]
-        res["link"] = new["link"]
-        noticias.push(res)
-      end
-      return noticias
+  def show site
+    case site
+    when "reddit"
+      return @reddit
+    when "mashable"
+      return @mashable
+    when "digg"
+      return @digg
     end
   end
 
-  class Digg
-    include HTTParty
-    base_uri 'https://digg.com/api/news/popular.json'
-
-    def news
-      response = self.class.get('')
-      return response
-    end
-
-    def format response
-      noticias = []
-      response["data"]["feed"].each do |new|
-        res = {}
-        res["author"] = new["content"]["author"] 
-        res["title_alt"] = new["content"]["title_alt"]
-        res["date_published"] = Time.at(new["date_published"])
-        res["url"] = new["content"]["url"]
-        noticias.push(res)
-      end
-      return noticias
+  def one_article(site, id) 
+    case site
+    when "reddit"
+      return @reddit[id]
+    when "mashable"
+      return @mashable[id]
+    when "digg"
+      return @digg[id]
     end
   end
 
-  def main
-    @newsarr = []
-    reddit_feed = Reddit.new
-    formato_reddit = reddit_feed.format reddit_feed.news
-    @newsarr.push(formato_reddit)
-    mashable_feed = Mashable.new
-    formato_mashable = mashable_feed.format mashable_feed.news
-    @newsarr.push(formato_mashable)
-    digg_feed = Digg.new
-    formato_digg = digg_feed.format digg_feed.news
-    @newsarr.push(formato_digg)
-    return @newsarr
+  def author 
+    @reddit[1]
   end
+
 
 end
