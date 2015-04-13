@@ -11,8 +11,8 @@ get 'feeds/:site/:id'
 Buscar noticias de un sitio por autor (Operativo en todos)
   get 'feeds/:site/author/:author'
 
-Buscar noticias de un sitio por title (Operativo en Digg)
+Buscar noticias de un sitio por title (Operativo en todos)
 get 'feeds/:site/title/:title'
 
-Buscar noticias de un sitio por fecha (Operattivo en Mashable, los demas debo convertir el date a string primero)
+Buscar noticias de un sitio por fecha (Operattivo en Mashable, los demas debo convertir el date a string pero no se por que no lo hace)
 get 'feeds/:site/date/:date'
