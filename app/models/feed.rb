@@ -16,7 +16,7 @@ class Feed
        @d = Digg.new
        @digg = @d.format @d.getjson
      else
-      return {error: "Erro en nombre del sitio de noticias"}
+      return {message: "The news site #{site} is not supported yet"}
     end
   end
 
@@ -74,6 +74,38 @@ class Feed
         end
       end
       return author_news
+    else
+      return {message: "The news site #{site} is not supported yet"}
+    end
+  end
+
+  def title(site, name) 
+    case site
+    when "reddit"
+      title_news = []
+      @reddit.each do |news| 
+        if news.title == name
+          title_news << news
+        end
+      end
+      return title_news
+    when "mashable"
+      title_news = []
+      @mashable.each do |news| 
+        if news.title == name
+          title_news << news
+        end
+      end
+      return title_news
+    when "digg"
+      title_news = []
+      @digg.collect do |news| 
+        if news.title == name
+           title_news << news
+        end
+      end
+      return title_news
+      # return @digg.collect {|news| news.title == name}
     else
       return {message: "The news site #{site} is not supported yet"}
     end

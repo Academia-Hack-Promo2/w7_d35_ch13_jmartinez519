@@ -17,7 +17,8 @@ class FeedsController < ApplicationController
   end
 
   def title
-    render json: {messagge: "Hello"}
+    list = Feed.new(params[:site])
+    render json: list.title(params[:site], params[:title])
   end
 
   def date 
