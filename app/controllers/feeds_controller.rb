@@ -22,6 +22,7 @@ class FeedsController < ApplicationController
   end
 
   def date 
-    render json: {messagge: "Hello"}
+    list = Feed.new(params[:site])
+    render json: list.date(params[:site], params[:date])
   end
 end

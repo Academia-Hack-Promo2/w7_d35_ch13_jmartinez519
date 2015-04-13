@@ -49,8 +49,6 @@ class Feed
       @reddit.each do |news| 
         if news.author == name
           author_news << news
-        else 
-          return {message: "Author #{name} not found"}
         end
       end
       return author_news
@@ -59,8 +57,6 @@ class Feed
       @mashable.each do |news| 
         if news.author == name
           author_news << news
-        else 
-          return {message: "Author #{name} not found"}
         end
       end
       return author_news
@@ -69,8 +65,6 @@ class Feed
       @digg.each do |news| 
         if news.author == name
           author_news << news
-        else 
-          return {message: "Author #{name} not found"}
         end
       end
       return author_news
@@ -111,5 +105,37 @@ class Feed
     end
   end
 
+  def date(site, d) 
+    case site
+    when "reddit" 
+      date_news = []
+      @reddit.each do |news| 
+        puts news.date
+        if news.date[0,7] == d
+          date_news << news
+        end
+      end
+      return date_news
+    when "mashable"
+      date_news = []
+      @mashable.each do |news| 
+        if news.date[0,7] == d
+          date_news << news
+        end
+      end
+      return date_news
+    when "digg"
+      date_news = []
+      @digg.collect do |news|
+        if news.date[0,7] == d
+           date_news << news
+        end
+      end
+      return date_news
+      # return @digg.collect {|news| news.title == name}
+    else
+      return {message: "The news site #{site} is not supported yet"}
+    end
+  end
 
 end

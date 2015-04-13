@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'feeds/:site/:id' => 'feeds#showone'
   get 'feeds/:site/author/:author' => 'feeds#author'
   get 'feeds/:site/title/:title' => 'feeds#title'
+  get 'feeds/:site/date/:date' => 'feeds#date'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
