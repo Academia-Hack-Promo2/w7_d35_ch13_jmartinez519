@@ -13,7 +13,7 @@ class FeedsController < ApplicationController
 
   def author 
     list = Feed.new(params[:site])
-    render json: list.author
+    render json: list.author(params[:site], params[:author])
   end
 
   def title

@@ -42,8 +42,41 @@ class Feed
     end
   end
 
-  def author 
-    @reddit[1]
+  def author(site, name) 
+    case site
+    when "reddit"
+      author_news = []
+      @reddit.each do |news| 
+        if news.author == name
+          author_news << news
+        else 
+          return {message: "Author #{name} not found"}
+        end
+      end
+      return author_news
+    when "mashable"
+      author_news = []
+      @mashable.each do |news| 
+        if news.author == name
+          author_news << news
+        else 
+          return {message: "Author #{name} not found"}
+        end
+      end
+      return author_news
+    when "digg"
+      author_news = []
+      @digg.each do |news| 
+        if news.author == name
+          author_news << news
+        else 
+          return {message: "Author #{name} not found"}
+        end
+      end
+      return author_news
+    else
+      return {message: "The news site #{site} is not supported yet"}
+    end
   end
 
 
